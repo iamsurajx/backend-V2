@@ -8,5 +8,5 @@ const ProjectSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const ProjectModel = mongoose.model("Project", ProjectSchema);
+const ProjectModel = mongoose.model("Projectt", ProjectSchema);
 export default ProjectModel;
