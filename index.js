@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import fileUpload from "./routes/fileUploader.js";
+import profile from "./routes/profileroutes.js"
 
 import {connectDB} from "./config/db.js";
 
@@ -26,6 +27,7 @@ app.use(bodyParser.json());
 
 app.use("/auth", AuthRoutes); // Authentication routes
 app.use(`/api`, fileUpload); // File upload routes
+app.use(`/api`, profile); // Profile routes  
 
 
 

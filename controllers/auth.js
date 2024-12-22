@@ -132,7 +132,7 @@ export const VerifyOTP = async (req, res) => {
 
 export const Signup = async (req, res) => {
   try {
-    const { email, name, password, birthday , location } = req.body;
+    const { email, name, password, location, birthday } = req.body;
 
     // Validate input
     if (!email || !name || !password) {
@@ -169,32 +169,41 @@ export const Signup = async (req, res) => {
     }
 
     // Hash the password
-    let hashPassword;
-    try {
-      hashPassword = await bcrypt.hash(password, 10);
-    } catch (hashError) {
-      console.error("Error hashing password:", hashError);
-      return res.status(500).json({
-        success: false,
-        message: "Error processing password.",
-      });
-    }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Generate unique referral code using UUID
-    const referralCode = uuidv4(); // Generate a unique referral code
+    const referralCode = uuidv4();
 
     // Update the user with the final details
     user.name = name;
-    user.password = hashPassword;
+    user.password = hashedPassword;
     user.referralCode = referralCode;
-    user.location=location;
-    user.birthday=birthday;  // Save the referral code
+
+    // Create a UserProfile document
+    let userProfile;
+    try {
+      userProfile = new UserProfileModel({
+        location,
+        birthday,
+      });
+      await userProfile.save();
+      console.log("UserProfile created successfully:", userProfile);
+    } catch (error) {
+      console.error("Error creating user profile:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Error creating user profile.",
+      });
+    }
+
+    // Link the UserProfile to the User
+    user.profile = userProfile._id;
 
     try {
       await user.save();
       console.log("User signed up successfully:", email);
-    } catch (saveError) {
-      console.error("Error saving user to database:", saveError);
+    } catch (error) {
+      console.error("Error saving user to database:", error);
       return res.status(500).json({
         success: false,
         message: "Error saving user to database.",
@@ -204,7 +213,7 @@ export const Signup = async (req, res) => {
     // Generate JWT token after successful signup
     const jwtToken = jwt.sign(
       { email: user.email, _id: user._id },
-      process.env.JWT_SECRET, // Make sure JWT_SECRET is set in .env file
+      process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
 
@@ -212,11 +221,12 @@ export const Signup = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: "Signup successful. You can now log in.",
-      jwtToken, // Send the JWT token in the response
-      referralCode, // Send the referral code in the response
+      jwtToken,
+      referralCode,
       user: {
         name: user.name,
         email: user.email,
+        profile: user.profile, // Include profile reference
       },
     });
   } catch (error) {
@@ -227,6 +237,7 @@ export const Signup = async (req, res) => {
     });
   }
 };
+
 
 
 
