@@ -8,13 +8,13 @@ import {
 const router = express.Router();
 
 // Route to save or update user profile details
-router.post("/user/:userId/profile", saveUserProfileDetails);
+router.post("/user/:userId", saveUserProfileDetails);
 
 // Route to get user profile details
-router.get("/user/:userId/profile", getUserProfileDetails);
+router.get("/user/:userId", getUserProfileDetails);
 
 // Route to update user profile details
-router.put("/user/:userId/profile", updateUserProfileDetails);
+router.put("/user/:userId", updateUserProfileDetails);
 
 // Optional: Route to delete user profile
 // router.delete('/user/:userId/profile', deleteUserProfile);
