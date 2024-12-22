@@ -227,7 +227,8 @@ export const Signup = async (req, res) => {
       user: {
         name: user.name,
         email: user.email,
-        profile: user.profile, // Include profile reference
+        profile: user.profile,
+        id:user._id,// Include profile reference
       },
     });
   } catch (error) {
