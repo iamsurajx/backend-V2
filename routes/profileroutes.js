@@ -1,14 +1,14 @@
 import express from "express";
 import {
-  saveUserProfileDetails,
+  // saveUserProfileDetails,
   getUserProfileDetails,
-  updateUserProfileDetails,
+   updateUserProfileDetails,
 } from "../controllers/profileController.js";
 
 const router = express.Router();
 
 // Route to save or update user profile details
-router.post("/user/:userId", saveUserProfileDetails);
+// router.post("/user/:userId", saveUserProfileDetails);
 
 // Route to get user profile details
 router.get("/user/:userId", getUserProfileDetails);

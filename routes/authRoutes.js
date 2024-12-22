@@ -9,6 +9,7 @@ import {
   ConfirmPassword,
   ValidateReferralCode,
   deleteUserAndProfile,
+  saveUserProfileDetails,
 } from "../controllers/auth.js";
 
 
@@ -34,5 +35,6 @@ router.post("/referal", ValidateReferralCode);
 
 router.post("/confirm", ConfirmPassword);
 router.delete("/delete", deleteUserAndProfile);
+router.post("/user/:userId", saveUserProfileDetails);
 
 export default router;

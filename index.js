@@ -26,8 +26,8 @@ app.use(bodyParser.json());
 
 
 app.use("/auth", AuthRoutes); // Authentication routes
-app.use(`/api`, fileUpload); // File upload routes
-app.use(`/api`, profile); // Profile routes  
+app.use("/api", fileUpload); // File upload routes
+app.use("/api", profile); // Profile routes  
 
 
 

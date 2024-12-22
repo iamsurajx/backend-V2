@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema(
     name: { type: String }, // Added later during signup completion
     password: { type: String },
     referralCode: { type: String },
-    profile: [{ type: mongoose.Schema.Types.ObjectId, ref: "userProfile" }],
+    profile: { type: mongoose.Schema.Types.ObjectId, ref: "UserProfile" },
   },
   { timestamps: true }
 );

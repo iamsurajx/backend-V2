@@ -575,6 +575,81 @@ export const deleteUserAndProfile = async (req, res) => {
   }
 };
 
+export const saveUserProfileDetails = async (req, res) => {
+  try {
+    const { userId } = req.params; // Extract userId from request parameters
+    const {
+      skillSet,
+      industries,
+      priorStartupExperience,
+      commitmentLevel,
+      equityExpectation,
+      status,
+    } = req.body; // Extract profile details from request body
+
+    // Check if the user exists
+    const user = await UserModel.findById(userId).populate("profile");
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    // Check if the user has a profile
+    if (!user.profile) {
+      // If no profile exists, create a new profile
+      const newProfile = new UserProfileModel({
+        skillSet,
+        industries,
+        priorStartupExperience,
+        commitmentLevel,
+        equityExpectation,
+        status,
+      });
+
+      // Save the new profile and link it to the user
+      await newProfile.save();
+      user.profile = newProfile._id;
+      await user.save();
+
+      return res.status(201).json({
+        success: true,
+        message: "Profile created successfully.",
+        profile: newProfile,
+      });
+    }
+
+    // If a profile exists, update it
+    const userProfile = user.profile;
+    userProfile.skillSet = skillSet || userProfile.skillSet;
+    userProfile.industries = industries || userProfile.industries;
+    userProfile.priorStartupExperience =
+      priorStartupExperience ?? userProfile.priorStartupExperience;
+    userProfile.commitmentLevel =
+      commitmentLevel || userProfile.commitmentLevel;
+    userProfile.equityExpectation =
+      equityExpectation || userProfile.equityExpectation;
+    userProfile.status = status || userProfile.status;
+
+    // Save the updated profile
+    await userProfile.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully.",
+      profile: userProfile,
+    });
+  } catch (error) {
+    console.error("Error saving user profile details:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
+
+
 
 
 
