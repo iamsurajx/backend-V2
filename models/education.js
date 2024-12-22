@@ -5,8 +5,8 @@ const EducationSchema = new mongoose.Schema(
     degree: { type: String },
     institution: { type: String },
     currentlyStudying: { type: Boolean },
-    startDate: { type: Date },
-    endDate: { type: Date },
+    startDate: { type: String },
+    endDate: { type: String },
     description: { type: String },
   },
   { timestamps: true }
