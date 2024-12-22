@@ -4,7 +4,7 @@ const UserProfileSchema = new mongoose.Schema(
     {
     status: { type: String }, // User's current status (e.g., "Looking for a co-founder")
     profilePhoto: { type: String }, // URL or file upload for the profile picture
-    birthday: { type: Date }, // User's date of birth (e.g., 1990-01-01)
+    birthday: { type:String }, // User's date of birth (e.g., 1990-01-01)
     bio: { type: String }, // Text bio or mindset description
     location: { type: String }, // User's current location
     skillSet: { type: [String] }, // Array of skills (e.g., ['JavaScript', 'Design'])
