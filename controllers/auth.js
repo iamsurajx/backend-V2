@@ -4,6 +4,7 @@ import { SendVerificationCode } from "../middlewaers/Email.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
+import UserProfileModel from "../models/userProfile.js";
 
 dotenv.config();
 
@@ -534,6 +535,47 @@ export const ValidateReferralCode = async (req, res) => {
     });
   }
 };
+
+;
+
+
+
+export const deleteUserAndProfile = async (req, res) => {
+  try {
+    const { userId } = req.params; // Extract userId from request parameters
+
+    // Check if the user exists
+    const user = await UserModel.findById(userId).populate("profile");
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    // Check if the user has a profile
+    if (user.profile) {
+      // Delete the user's profile first
+      await UserProfileModel.findByIdAndDelete(user.profile._id);
+    }
+
+    // Delete the user
+    await UserModel.findByIdAndDelete(userId);
+
+    return res.status(200).json({
+      success: true,
+      message: "User and profile deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Error deleting user and profile:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
+
+
 
 
 
