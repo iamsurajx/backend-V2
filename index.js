@@ -7,8 +7,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import fileUpload from "./routes/fileUploader.js";
 import profile from "./routes/profileroutes.js"
-
+import userPreference from "./routes/userPreference.js";
+import { authenticate } from "./middlewaers/authenticate.js";
 import {connectDB} from "./config/db.js";
+
 
 dotenv.config();
 const app = express();
@@ -24,10 +26,15 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
+// Protected route example
+app.get('/protected', authenticate, (req, res) => {
+  res.json({ message: 'This is a protected route', userId: req.userId });
+});
 
 app.use("/auth", AuthRoutes); // Authentication routes
 app.use("/api", fileUpload); // File upload routes
 app.use("/api", profile); // Profile routes  
+app.use("/api", userPreference); // Profile routes  
 
 
 

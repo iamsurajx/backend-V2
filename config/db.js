@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const connectDB = () => {
-  mongoose.connect("mongodb+srv://connect:SYo1XnmCJWVgVSys@cluster0.b57i5.mongodb.net/", {
+  mongoose.connect(process.env.MongoDB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true, // Helps to avoid deprecated warnings
   });

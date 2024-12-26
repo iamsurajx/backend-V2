@@ -9,9 +9,11 @@ const UserSchema = new mongoose.Schema(
     password: { type: String },
     referralCode: { type: String },
     profile: { type: mongoose.Schema.Types.ObjectId, ref: "UserProfile" },
+    preference: { type: mongoose.Schema.Types.ObjectId, ref: "UserPreference" },
   },
   { timestamps: true }
 );
 
 const UserModel = mongoose.model("User", UserSchema);
 export default UserModel;
+

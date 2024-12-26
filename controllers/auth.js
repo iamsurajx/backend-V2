@@ -130,7 +130,6 @@ export const VerifyOTP = async (req, res) => {
 };
 
 
-
 export const Signup = async (req, res) => {
   try {
     const { email, name, password, location, birthday } = req.body;
@@ -239,8 +238,6 @@ export const Signup = async (req, res) => {
     });
   }
 };
-
-
 
 
 export const Login = async (req, res) => {
