@@ -10,6 +10,7 @@ import profile from "./routes/profileroutes.js"
 import userPreference from "./routes/userPreference.js";
 import { authenticate } from "./middlewaers/authenticate.js";
 import {connectDB} from "./config/db.js";
+import profileFilter from "./routes/profileFilter.js";
 
 
 dotenv.config();
@@ -35,6 +36,7 @@ app.use("/auth", AuthRoutes); // Authentication routes
 app.use("/api", fileUpload); // File upload routes
 app.use("/api", profile); // Profile routes  
 app.use("/api", userPreference); // Profile routes  
+app.use("/api", profileFilter); // Profile routes  
 
 
 

@@ -24,4 +24,5 @@ router.put("/user/:userId", updateUserProfileDetails);
 // Get user data 
 router.get('/users', getAllUserData); // Define the route to get all users
 
+
 export default router;
